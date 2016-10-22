@@ -1,1 +1,1 @@
-"#StretchOS" 
+#StretchOS
