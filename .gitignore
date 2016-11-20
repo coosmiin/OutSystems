@@ -3,7 +3,5 @@
 ################################################################################
 
 /src/.vs
-/src/StretchOS.Proxy/obj
-/src/StretchOS.Console/obj
-/src/StretchOS.Console/bin
-/src/StretchOS.Proxy/bin
+/src/*/obj
+/src/*/bin
