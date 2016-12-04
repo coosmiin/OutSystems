@@ -2,7 +2,7 @@
 
 namespace StretchOS.Proxy.Domain
 {
-	public class OsRequest
+	public class OsResponse
 	{
 		public Guid RequestId;
 		public OsRequestType Type;

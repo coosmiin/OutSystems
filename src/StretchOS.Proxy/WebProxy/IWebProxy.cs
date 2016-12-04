@@ -6,6 +6,6 @@ namespace StretchOS.Proxy.WebProxy
 	{
 		void StartProxy();
 		void StopProxy();
-		void RegisterSniffer(IRequestSniffer sniffer);
+		void RegisterSniffer(IWebSniffer sniffer);
 	}
 }

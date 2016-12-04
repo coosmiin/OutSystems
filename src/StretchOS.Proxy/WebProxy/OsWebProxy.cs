@@ -12,7 +12,7 @@ namespace StretchOS.Proxy.WebProxy
 	public class OsWebProxy : IWebProxy
 	{
 		private readonly ProxyServer _proxyServer;
-		private readonly IList<IRequestSniffer> _requestSniffers = new List<IRequestSniffer>();
+		private readonly IList<IWebSniffer> _webSniffers = new List<IWebSniffer>();
 
 		public OsWebProxy()
 		{
@@ -47,14 +47,14 @@ namespace StretchOS.Proxy.WebProxy
 			_proxyServer.Stop();
 		}
 
-		public void RegisterSniffer(IRequestSniffer sniffer)
+		public void RegisterSniffer(IWebSniffer sniffer)
 		{
-			_requestSniffers.Add(sniffer);
+			_webSniffers.Add(sniffer);
 		}
 
 		private async Task OnBeforeRequest(object sender, SessionEventArgs e)
 		{
-			foreach (IRequestSniffer sniffer in _requestSniffers)
+			foreach (IWebSniffer sniffer in _webSniffers)
 			{
 				await sniffer.OnBeforeRequest(e);
 			}
@@ -62,7 +62,7 @@ namespace StretchOS.Proxy.WebProxy
 
 		private async Task OnBeforeResponse(object sender, SessionEventArgs e)
 		{
-			foreach (IRequestSniffer sniffer in _requestSniffers)
+			foreach (IWebSniffer sniffer in _webSniffers)
 			{
 				await sniffer.OnBeforeResponse(e);
 			}

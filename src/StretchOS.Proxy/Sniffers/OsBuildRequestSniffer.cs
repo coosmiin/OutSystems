@@ -12,7 +12,7 @@ using Titanium.Web.Proxy.Models;
 
 namespace StretchOS.Proxy.Sniffers
 {
-	public class OsServiceSniffer : IRequestSniffer
+	public class OsBuildRequestSniffer : IWebSniffer
 	{
 		private const string SOAP_HEADER_NAME = "SOAPAction";
 		private const string CHECK_PUBLISH_METHOD_NAME = "CheckPublishAsync";
@@ -23,7 +23,7 @@ namespace StretchOS.Proxy.Sniffers
 		private readonly IRequestParser _requestParser;
 		private readonly IEventNotifier _notifier;
 
-		public OsServiceSniffer(IEventNotifier notifier, IRequestParser requestParser)
+		public OsBuildRequestSniffer(IEventNotifier notifier, IRequestParser requestParser)
 		{
 			_notifier = notifier;
 			_requestParser = requestParser;
@@ -50,10 +50,7 @@ namespace StretchOS.Proxy.Sniffers
 
 			OsRequest request = _requestParser.Parse(requestBody);
 
-			if (request.Type == OsRequestType.Build)
-			{
-				_notifier.Notify(OsEventType.BuildStarted);
-			}
+			_notifier.Notify(request);
 		}
 
 		public async Task OnBeforeResponse(SessionEventArgs e)

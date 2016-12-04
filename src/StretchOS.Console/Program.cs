@@ -25,7 +25,7 @@ namespace StretchOS.Console
 
 			eventTracker.Subscribe(new OsBuildObserver());
 
-			_osWebProxy.RegisterSniffer(new OsServiceSniffer(eventTracker, new OsServiceRequestParser()));
+			_osWebProxy.RegisterSniffer(new OsBuildRequestSniffer(eventTracker, new OsServiceRequestParser()));
 
 			_osWebProxy.StartProxy();
 

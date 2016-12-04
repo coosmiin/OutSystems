@@ -3,7 +3,7 @@ using Titanium.Web.Proxy.EventArguments;
 
 namespace StretchOS.Proxy.Sniffers
 {
-	public interface IRequestSniffer
+	public interface IWebSniffer
 	{
 		Task OnBeforeRequest(SessionEventArgs e);
 		Task OnBeforeResponse(SessionEventArgs e);

@@ -52,6 +52,7 @@
   </ItemGroup>
   <ItemGroup>
     <Compile Include="Domain\OsRequest.cs" />
+    <Compile Include="Domain\OsResponse.cs" />
     <Compile Include="Domain\OsRequestType.cs" />
     <Compile Include="Events\OsEventType.cs" />
     <Compile Include="Observer\IEventNotifier.cs" />
@@ -60,8 +61,8 @@
     <Compile Include="Parsers\IRequestParser.cs" />
     <Compile Include="Parsers\IResponseParser.cs" />
     <Compile Include="Parsers\OsServiceRequestParser.cs" />
-    <Compile Include="Sniffers\IRequestSniffer.cs" />
-    <Compile Include="Sniffers\OsServiceSniffer.cs" />
+    <Compile Include="Sniffers\IWebSniffer.cs" />
+    <Compile Include="Sniffers\OsBuildRequestSniffer.cs" />
     <Compile Include="WebProxy\IWebProxy.cs" />
     <Compile Include="WebProxy\OsWebProxy.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />

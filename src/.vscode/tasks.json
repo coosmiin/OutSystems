@@ -1,0 +1,26 @@
+{
+	"version": "0.1.0",
+	"command": "cmd",
+	"args": [
+		"/C"
+	],
+	"showOutput": "silent",
+	"echoCommand": true,
+	"tasks": [
+		{
+			"isBuildCommand": true, 
+			"taskName": "MSBuild.exe",
+			"args": [
+				"${workspaceRoot}/StretchOS.sln",
+				"/t:Rebuild",
+                "/p:Configuration=Debug;Platform=Any CPU;GenerateFullPaths=true",
+                "/m"
+			],
+			"showOutput": "silent",
+			"problemMatcher": "$msCompile"
+		},
+		{
+			"taskName": "${workspaceRoot}/StretchOS.Console/bin/Debug/StretchOS.Console.exe"
+		}
+	]
+}
