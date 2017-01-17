@@ -39,6 +39,8 @@
     </Reference>
     <Reference Include="System" />
     <Reference Include="System.Core" />
+    <Reference Include="System.Runtime.Serialization" />
+    <Reference Include="System.ServiceModel" />
     <Reference Include="System.Xml.Linq" />
     <Reference Include="System.Data.DataSetExtensions" />
     <Reference Include="Microsoft.CSharp" />
@@ -51,26 +53,132 @@
     </Reference>
   </ItemGroup>
   <ItemGroup>
-    <Compile Include="Domain\OsRequest.cs" />
-    <Compile Include="Domain\OsResponse.cs" />
-    <Compile Include="Domain\OsRequestType.cs" />
+    <Compile Include="Events\IOsEvent.cs" />
+    <Compile Include="Events\IOsEventHub.cs" />
+    <Compile Include="Events\OsBuildStartedEvent.cs" />
+    <Compile Include="Domain\OsESpaceBuildResponse.cs" />
+    <Compile Include="Events\OsEventHub.cs" />
     <Compile Include="Events\OsEventType.cs" />
-    <Compile Include="Observer\IEventNotifier.cs" />
-    <Compile Include="Observer\OsBuildObserver.cs" />
-    <Compile Include="Observer\OsEventTracker.cs" />
-    <Compile Include="Parsers\IRequestParser.cs" />
     <Compile Include="Parsers\IResponseParser.cs" />
-    <Compile Include="Parsers\OsServiceRequestParser.cs" />
+    <Compile Include="Parsers\OsEspaceBuildResponseParser.cs" />
+    <Compile Include="Service References\OutSystemsService\Reference.cs">
+      <AutoGen>True</AutoGen>
+      <DesignTime>True</DesignTime>
+      <DependentUpon>Reference.svcmap</DependentUpon>
+    </Compile>
+    <Compile Include="ServiceProxy\BuildModuleRequest.cs" />
+    <Compile Include="ServiceProxy\IServiceCenterProxy.cs" />
+    <Compile Include="ServiceProxy\ServiceCenterProxy.cs" />
     <Compile Include="Sniffers\IWebSniffer.cs" />
-    <Compile Include="Sniffers\OsBuildRequestSniffer.cs" />
+    <Compile Include="Sniffers\OsESpaceBuildSniffer.cs" />
     <Compile Include="WebProxy\IWebProxy.cs" />
     <Compile Include="WebProxy\OsWebProxy.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
   </ItemGroup>
   <ItemGroup>
+    <None Include="app.config" />
     <None Include="packages.config" />
+    <None Include="Service References\OutSystemsService\ServiceStudio.wsdl" />
+    <None Include="Service References\OutSystemsService\StretchOS.Proxy.OutSystemsService.AbstractRecord.datasource">
+      <DependentUpon>Reference.svcmap</DependentUpon>
+    </None>
+    <None Include="Service References\OutSystemsService\StretchOS.Proxy.OutSystemsService.ActivationLicenseInformation.datasource">
+      <DependentUpon>Reference.svcmap</DependentUpon>
+    </None>
+    <None Include="Service References\OutSystemsService\StretchOS.Proxy.OutSystemsService.ApplicationInfo.datasource">
+      <DependentUpon>Reference.svcmap</DependentUpon>
+    </None>
+    <None Include="Service References\OutSystemsService\StretchOS.Proxy.OutSystemsService.ApplicationTemplateInfo.datasource">
+      <DependentUpon>Reference.svcmap</DependentUpon>
+    </None>
+    <None Include="Service References\OutSystemsService\StretchOS.Proxy.OutSystemsService.Area_Entry_Point.datasource">
+      <DependentUpon>Reference.svcmap</DependentUpon>
+    </None>
+    <None Include="Service References\OutSystemsService\StretchOS.Proxy.OutSystemsService.Assembly.datasource">
+      <DependentUpon>Reference.svcmap</DependentUpon>
+    </None>
+    <None Include="Service References\OutSystemsService\StretchOS.Proxy.OutSystemsService.Binary.datasource">
+      <DependentUpon>Reference.svcmap</DependentUpon>
+    </None>
+    <None Include="Service References\OutSystemsService\StretchOS.Proxy.OutSystemsService.DALEntityHighlightingHash.datasource">
+      <DependentUpon>Reference.svcmap</DependentUpon>
+    </None>
+    <None Include="Service References\OutSystemsService\StretchOS.Proxy.OutSystemsService.DALHighlightingDefinition.datasource">
+      <DependentUpon>Reference.svcmap</DependentUpon>
+    </None>
+    <None Include="Service References\OutSystemsService\StretchOS.Proxy.OutSystemsService.DBCatalogInfo.datasource">
+      <DependentUpon>Reference.svcmap</DependentUpon>
+    </None>
+    <None Include="Service References\OutSystemsService\StretchOS.Proxy.OutSystemsService.DeveloperOperation.datasource">
+      <DependentUpon>Reference.svcmap</DependentUpon>
+    </None>
+    <None Include="Service References\OutSystemsService\StretchOS.Proxy.OutSystemsService.EntityDBProviderKey.datasource">
+      <DependentUpon>Reference.svcmap</DependentUpon>
+    </None>
+    <None Include="Service References\OutSystemsService\StretchOS.Proxy.OutSystemsService.EntityUsageInfo.datasource">
+      <DependentUpon>Reference.svcmap</DependentUpon>
+    </None>
+    <None Include="Service References\OutSystemsService\StretchOS.Proxy.OutSystemsService.Entity_Record.datasource">
+      <DependentUpon>Reference.svcmap</DependentUpon>
+    </None>
+    <None Include="Service References\OutSystemsService\StretchOS.Proxy.OutSystemsService.EspaceIdNameAndKey.datasource">
+      <DependentUpon>Reference.svcmap</DependentUpon>
+    </None>
+    <None Include="Service References\OutSystemsService\StretchOS.Proxy.OutSystemsService.HEMessage.datasource">
+      <DependentUpon>Reference.svcmap</DependentUpon>
+    </None>
+    <None Include="Service References\OutSystemsService\StretchOS.Proxy.OutSystemsService.Integer.datasource">
+      <DependentUpon>Reference.svcmap</DependentUpon>
+    </None>
+    <None Include="Service References\OutSystemsService\StretchOS.Proxy.OutSystemsService.ModuleInfo.datasource">
+      <DependentUpon>Reference.svcmap</DependentUpon>
+    </None>
+    <None Include="Service References\OutSystemsService\StretchOS.Proxy.OutSystemsService.Properties.datasource">
+      <DependentUpon>Reference.svcmap</DependentUpon>
+    </None>
+    <None Include="Service References\OutSystemsService\StretchOS.Proxy.OutSystemsService.PublishResult.datasource">
+      <DependentUpon>Reference.svcmap</DependentUpon>
+    </None>
+    <None Include="Service References\OutSystemsService\StretchOS.Proxy.OutSystemsService.ReferenceType.datasource">
+      <DependentUpon>Reference.svcmap</DependentUpon>
+    </None>
+    <None Include="Service References\OutSystemsService\StretchOS.Proxy.OutSystemsService.SolutionComponent.datasource">
+      <DependentUpon>Reference.svcmap</DependentUpon>
+    </None>
+    <None Include="Service References\OutSystemsService\StretchOS.Proxy.OutSystemsService.SolutionPack_ApplicationDependency.datasource">
+      <DependentUpon>Reference.svcmap</DependentUpon>
+    </None>
+    <None Include="Service References\OutSystemsService\StretchOS.Proxy.OutSystemsService.SS_LicensingFeatureInfo.datasource">
+      <DependentUpon>Reference.svcmap</DependentUpon>
+    </None>
+    <None Include="Service References\OutSystemsService\StretchOS.Proxy.OutSystemsService.TenantType.datasource">
+      <DependentUpon>Reference.svcmap</DependentUpon>
+    </None>
+    <None Include="Service References\OutSystemsService\StretchOS.Proxy.OutSystemsService.Text.datasource">
+      <DependentUpon>Reference.svcmap</DependentUpon>
+    </None>
+    <None Include="Service References\OutSystemsService\StretchOS.Proxy.OutSystemsService.WORCCommitExtraInfoModuleInfoRecord.datasource">
+      <DependentUpon>Reference.svcmap</DependentUpon>
+    </None>
   </ItemGroup>
-  <ItemGroup />
+  <ItemGroup>
+    <WCFMetadata Include="Service References\" />
+  </ItemGroup>
+  <ItemGroup>
+    <WCFMetadataStorage Include="Service References\OutSystemsService\" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="Service References\OutSystemsService\configuration91.svcinfo" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="Service References\OutSystemsService\configuration.svcinfo" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="Service References\OutSystemsService\Reference.svcmap">
+      <Generator>WCF Proxy Generator</Generator>
+      <LastGenOutput>Reference.cs</LastGenOutput>
+    </None>
+  </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
   <!-- To modify your build process, add your task inside one of the targets below and uncomment it. 
        Other similar extension points exist, see Microsoft.Common.targets.
