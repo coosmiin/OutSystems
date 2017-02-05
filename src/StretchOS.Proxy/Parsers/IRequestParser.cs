@@ -1,6 +1,6 @@
 ﻿namespace StretchOS.Proxy.Parsers
 {
-	public interface IResponseParser<T>
+	public interface IRequestParser<T>
 	{
 		T Parse(string responseBody);
 	}

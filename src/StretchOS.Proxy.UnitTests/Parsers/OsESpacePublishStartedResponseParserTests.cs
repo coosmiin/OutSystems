@@ -5,12 +5,12 @@ using System.IO;
 namespace StretchOS.Proxy.UnitTests.Parsers
 {
 	[TestFixture]
-	public class OsServiceResponseParserTests
+	public class OsESpacePublishStartedResponseParserTests
 	{
 		[Test]
-		public void Parse_WithOutsystemsNamespaceInRoot()
+		public void Parse()
 		{
-			var parser = new OsEspaceBuildResponseParser();
+			var parser = new OsESpacePublishStartedResponseParser();
 
 			parser.Parse(File.ReadAllText(Utils.GetTestResourcePath(@"Parsers\Data\Start1CPResponse.xml")));
 		}

@@ -1,21 +1,20 @@
 ﻿using System;
-using System.Collections.Concurrent;
 using System.Runtime.InteropServices;
 using StretchOS.Proxy.WebProxy;
 using StretchOS.Proxy.Parsers;
 using StretchOS.Proxy.Sniffers;
-using StretchOS.Proxy.ServiceProxy;
+using StretchOS.Proxy.Events;
+using StretchOS.Proxy.ESpaces;
 
 namespace StretchOS.Console
 {
-	using Proxy.Events;
 	using Console = System.Console;
 
 	class Program
 	{
 		private static IWebProxy _osWebProxy;
 
-		private static IOsEventHub _osEventHub = new OsEventHub();
+		private static IOsEventHub _osEventHub = new OsEventHub(new ESpaceCenter());
 
 		static void Main(string[] args)
 		{
@@ -25,7 +24,10 @@ namespace StretchOS.Console
 			_osWebProxy = new OsWebProxy();
 
 			_osWebProxy.RegisterSniffer(
-				new OsESpaceBuildSniffer(new ServiceCenterProxy(), new OsEspaceBuildResponseParser(), _osEventHub));
+				new OsESpacePublishStartedSniffer(new OsESpacePublishStartedResponseParser(), _osEventHub));
+			_osWebProxy.RegisterSniffer(
+				new OsESpacePublishStateSniffer(
+					new OsCheckESpacePublishStateRequestParser(), new OsCheckESpacePublishStateResponseParser(), _osEventHub));
 
 			_osWebProxy.StartProxy();
 			_osEventHub.Start();

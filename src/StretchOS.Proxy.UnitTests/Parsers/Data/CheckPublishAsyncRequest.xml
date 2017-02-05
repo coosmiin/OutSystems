@@ -1,0 +1,10 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<s:Envelope xmlns:s="http://schemas.xmlsoap.org/soap/envelope/">
+	<s:Body>
+		<CheckPublishAsync xmlns="http://www.outsystems.com">
+			<username>c.roman@netmatch.ro</username>
+			<password>#$1$gaORkH7u0YOSz2nBwzEtQA==7ZnvWE1sfVTVUxFNcF50tA==</password>
+			<versionid>228</versionid>
+		</CheckPublishAsync>
+	</s:Body>
+</s:Envelope>

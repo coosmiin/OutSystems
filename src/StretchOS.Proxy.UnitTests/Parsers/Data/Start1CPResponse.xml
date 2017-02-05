@@ -1,17 +1,22 @@
-﻿<Start1CPResponse xmlns="http://www.outsystems.com">
-	<result>
-		<HasErrors>false</HasErrors>
-		<Messages/>
-		<ESpaceId>41</ESpaceId>
-		<VersionId>196</VersionId>
-		<PublishId>560a1a79-6aa8-40fb-b6d0-748cf554bfac</PublishId>
-		<NeedsCatalog>false</NeedsCatalog>
-		<NeedsReplace>false</NeedsReplace>
-		<VersionComparison>
-			<Result>1</Result>
-			<LastServerVersion>195</LastServerVersion>
-			<UploadUser/>
-			<UploadDate>1900-01-01T00:00:00.0000000+00:00</UploadDate>
-		</VersionComparison>
-	</result>
-</Start1CPResponse>
+﻿<?xml version="1.0" encoding="utf-8"?>
+<soap:Envelope xmlns:soap="http://schemas.xmlsoap.org/soap/envelope/" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns:xsd="http://www.w3.org/2001/XMLSchema">
+	<soap:Body>
+		<Start1CPResponse xmlns="http://www.outsystems.com">
+			<result>
+				<HasErrors>false</HasErrors>
+				<Messages />
+				<ESpaceId>42</ESpaceId>
+				<VersionId>228</VersionId>
+				<PublishId>7d2948f0-8839-491a-bcb5-05c59774909c</PublishId>
+				<NeedsCatalog>false</NeedsCatalog>
+				<NeedsReplace>false</NeedsReplace>
+				<VersionComparison>
+					<Result>1</Result>
+					<LastServerVersion>227</LastServerVersion>
+					<UploadUser />
+					<UploadDate>1900-01-01T00:00:00.0000000+00:00</UploadDate>
+				</VersionComparison>
+			</result>
+		</Start1CPResponse>
+	</soap:Body>
+</soap:Envelope>

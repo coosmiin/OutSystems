@@ -47,20 +47,33 @@
     <Reference Include="System.Data" />
     <Reference Include="System.Net.Http" />
     <Reference Include="System.Xml" />
-    <Reference Include="Titanium.Web.Proxy, Version=3.0.3.0, Culture=neutral, processorArchitecture=MSIL">
-      <HintPath>..\packages\Titanium.Web.Proxy.3.0.3\lib\net45\Titanium.Web.Proxy.dll</HintPath>
+    <Reference Include="Titanium.Web.Proxy, Version=3.0.8.0, Culture=neutral, processorArchitecture=MSIL">
+      <HintPath>..\packages\Titanium.Web.Proxy.3.0.8\lib\net45\Titanium.Web.Proxy.dll</HintPath>
       <Private>True</Private>
     </Reference>
   </ItemGroup>
   <ItemGroup>
+    <Compile Include="ESpaces\ESpace.cs" />
+    <Compile Include="ESpaces\ESpaceCenter.cs" />
+    <Compile Include="ESpaces\IESpace.cs" />
+    <Compile Include="ESpaces\IESpaceCenter.cs" />
+    <Compile Include="Domain\OsPublishTransaction.cs" />
     <Compile Include="Events\IOsEvent.cs" />
     <Compile Include="Events\IOsEventHub.cs" />
-    <Compile Include="Events\OsBuildStartedEvent.cs" />
-    <Compile Include="Domain\OsESpaceBuildResponse.cs" />
+    <Compile Include="Events\OsPublishCompletedEvent.cs" />
+    <Compile Include="Events\OsPublishStatus.cs" />
+    <Compile Include="Events\OsEventBase.cs" />
+    <Compile Include="Events\OsPublishStartedEvent.cs" />
+    <Compile Include="Parsers\OsCheckESpacePublishStateRequest.cs" />
+    <Compile Include="Parsers\OsCheckESpacePublishStateResponse.cs" />
+    <Compile Include="Parsers\OsCheckESpacePublishStateRequestParser.cs" />
+    <Compile Include="Parsers\OsESpacePublishStartedResponse.cs" />
     <Compile Include="Events\OsEventHub.cs" />
     <Compile Include="Events\OsEventType.cs" />
-    <Compile Include="Parsers\IResponseParser.cs" />
-    <Compile Include="Parsers\OsEspaceBuildResponseParser.cs" />
+    <Compile Include="Parsers\IRequestParser.cs" />
+    <Compile Include="Parsers\OsCheckESpacePublishStateResponseParser.cs" />
+    <Compile Include="Parsers\OsContentParserBase.cs" />
+    <Compile Include="Parsers\OsESpacePublishStartedResponseParser.cs" />
     <Compile Include="Service References\OutSystemsService\Reference.cs">
       <AutoGen>True</AutoGen>
       <DesignTime>True</DesignTime>
@@ -70,7 +83,9 @@
     <Compile Include="ServiceProxy\IServiceCenterProxy.cs" />
     <Compile Include="ServiceProxy\ServiceCenterProxy.cs" />
     <Compile Include="Sniffers\IWebSniffer.cs" />
-    <Compile Include="Sniffers\OsESpaceBuildSniffer.cs" />
+    <Compile Include="Sniffers\OsESpacePublishStartedSniffer.cs" />
+    <Compile Include="Sniffers\OsESpaceSnifferBase.cs" />
+    <Compile Include="Sniffers\OsESpacePublishStateSniffer.cs" />
     <Compile Include="WebProxy\IWebProxy.cs" />
     <Compile Include="WebProxy\OsWebProxy.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
@@ -179,6 +194,7 @@
       <LastGenOutput>Reference.cs</LastGenOutput>
     </None>
   </ItemGroup>
+  <ItemGroup />
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
   <!-- To modify your build process, add your task inside one of the targets below and uncomment it. 
        Other similar extension points exist, see Microsoft.Common.targets.

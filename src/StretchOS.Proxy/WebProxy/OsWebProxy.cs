@@ -1,8 +1,6 @@
 ﻿using StretchOS.Proxy.Sniffers;
-using System;
 using System.Collections.Generic;
 using System.Net;
-using System.Threading;
 using System.Threading.Tasks;
 using Titanium.Web.Proxy;
 using Titanium.Web.Proxy.EventArguments;
@@ -23,6 +21,7 @@ namespace StretchOS.Proxy.WebProxy
 		public void StartProxy()
 		{
 			_proxyServer.TrustRootCertificate = true;
+			_proxyServer.BeforeRequest += OnBeforeRequest;
 			_proxyServer.BeforeResponse += OnBeforeResponse;
 
 			// TODO: Port should be read from configuration
@@ -41,6 +40,7 @@ namespace StretchOS.Proxy.WebProxy
 
 		public void StopProxy()
 		{
+			_proxyServer.BeforeRequest -= OnBeforeRequest;
 			_proxyServer.BeforeResponse -= OnBeforeResponse;
 
 			_proxyServer.Stop();
@@ -49,6 +49,14 @@ namespace StretchOS.Proxy.WebProxy
 		public void RegisterSniffer(IWebSniffer sniffer)
 		{
 			_webSniffers.Add(sniffer);
+		}
+
+		private async Task OnBeforeRequest(object sender, SessionEventArgs e)
+		{
+			foreach (IWebSniffer sniffer in _webSniffers)
+			{
+				await sniffer.OnBeforeRequest(e);
+			}
 		}
 
 		private async Task OnBeforeResponse(object sender, SessionEventArgs e)

@@ -2,6 +2,7 @@
 {
 	public enum OsEventType
 	{
-		BuildStarted
+		PublishStarted,
+		PublishCompleted
 	}
 }

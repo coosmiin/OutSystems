@@ -3,5 +3,6 @@
 	public interface IOsEvent
 	{
 		OsEventType Type { get; }
+		int VersionId { get; }
 	}
 }

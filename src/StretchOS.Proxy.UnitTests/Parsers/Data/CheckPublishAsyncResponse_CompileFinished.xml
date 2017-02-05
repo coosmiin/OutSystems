@@ -1,0 +1,18 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<soap:Envelope xmlns:soap="http://schemas.xmlsoap.org/soap/envelope/" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns:xsd="http://www.w3.org/2001/XMLSchema">
+	<soap:Body>
+		<CheckPublishAsyncResponse xmlns="http://www.outsystems.com">
+			<messages>
+				<HEMessage>
+					<Id>CompileFinished</Id>
+					<Message>Compile Finished</Message>
+					<Detail>The 'CS_B' eSpace was compiled successfully.</Detail>
+					<HelpRef>0</HelpRef>
+					<ExtraInfo />
+					<Type>Info</Type>
+					<Submitable>false</Submitable>
+				</HEMessage>
+			</messages>
+		</CheckPublishAsyncResponse>
+	</soap:Body>
+</soap:Envelope>
