@@ -3,7 +3,7 @@ using System.Runtime.InteropServices;
 using StretchOS.Proxy.WebProxy;
 using StretchOS.Proxy.Parsers;
 using StretchOS.Proxy.Sniffers;
-using StretchOS.Proxy.Events;
+using StretchOS.Proxy.OsEvents;
 using StretchOS.Proxy.ESpaces;
 
 namespace StretchOS.Console
@@ -13,13 +13,17 @@ namespace StretchOS.Console
 	class Program
 	{
 		private static IWebProxy _osWebProxy;
-
-		private static IOsEventHub _osEventHub = new OsEventHub(new ESpaceCenter());
+		private static IOsEventHub _osEventHub;
 
 		static void Main(string[] args)
 		{
 			// on Console exit make sure we also exit the proxy
 			SetConsoleCtrlHandler(ConsoleEventCallback, true);
+
+			_osEventHub = 
+				new OsEventHub(
+					new ESpaceCenter(
+						new ESpaceFileSystemRepository("eSpaces.json")));
 
 			_osWebProxy = new OsWebProxy();
 

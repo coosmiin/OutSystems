@@ -6,5 +6,6 @@ namespace StretchOS.Proxy.ESpaces
 	{
 		void AddOrUpdateESpace(IESpace eSpace);
 		void AddConsumers(int eSpaceId, IList<string> consumerNames);
+		void SaveState();
 	}
 }

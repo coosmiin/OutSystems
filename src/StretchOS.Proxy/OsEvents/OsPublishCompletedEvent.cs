@@ -1,6 +1,6 @@
 ﻿using System.Collections.Generic;
 
-namespace StretchOS.Proxy.Events
+namespace StretchOS.Proxy.OsEvents
 {
 	public class OsPublishCompletedEvent : OsEventBase
 	{

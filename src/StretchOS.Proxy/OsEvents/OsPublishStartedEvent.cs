@@ -1,4 +1,4 @@
-﻿namespace StretchOS.Proxy.Events
+﻿namespace StretchOS.Proxy.OsEvents
 {
 	public class OsPublishStartedEvent : OsEventBase
 	{

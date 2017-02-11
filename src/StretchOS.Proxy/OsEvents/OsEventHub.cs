@@ -3,7 +3,7 @@ using System.Collections.Concurrent;
 using StretchOS.Proxy.Domain;
 using StretchOS.Proxy.ESpaces;
 
-namespace StretchOS.Proxy.Events
+namespace StretchOS.Proxy.OsEvents
 {
 	public class OsEventHub : IOsEventHub
 	{
@@ -71,6 +71,7 @@ namespace StretchOS.Proxy.Events
 		public void Stop()
 		{
 			_osEvents.CompleteAdding();
+			_eSpaceCenter.SaveState();
 		}
 	}
 }

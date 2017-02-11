@@ -1,4 +1,4 @@
-﻿using StretchOS.Proxy.Events;
+﻿using StretchOS.Proxy.OsEvents;
 using StretchOS.Proxy.OutSystemsService;
 using System;
 using System.Collections.Generic;

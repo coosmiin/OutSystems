@@ -1,4 +1,4 @@
-﻿using StretchOS.Proxy.Events;
+﻿using StretchOS.Proxy.OsEvents;
 using System.Collections.Generic;
 
 namespace StretchOS.Proxy.Parsers

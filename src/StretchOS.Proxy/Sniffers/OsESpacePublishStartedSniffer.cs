@@ -1,4 +1,4 @@
-﻿using StretchOS.Proxy.Events;
+﻿using StretchOS.Proxy.OsEvents;
 using StretchOS.Proxy.Parsers;
 using Titanium.Web.Proxy.EventArguments;
 

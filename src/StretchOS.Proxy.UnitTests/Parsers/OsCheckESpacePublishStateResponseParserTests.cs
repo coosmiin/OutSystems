@@ -1,7 +1,6 @@
 ﻿using NUnit.Framework;
-using StretchOS.Proxy.Events;
+using StretchOS.Proxy.OsEvents;
 using StretchOS.Proxy.Parsers;
-using System.Collections.Generic;
 using System.IO;
 
 namespace StretchOS.Proxy.UnitTests.Parsers

@@ -1,4 +1,5 @@
-﻿using NUnit.Framework;
+﻿using Moq;
+using NUnit.Framework;
 using StretchOS.Proxy.ESpaces;
 using System.Linq;
 
@@ -10,7 +11,7 @@ namespace StretchOS.Proxy.UnitTests.ESpaces
 		[Test]
 		public void AddOrUpdateESpace_ESpaceIsUnknownConsumerForOtherESpaces_BecomesKnownForAll()
 		{
-			var eSpaceCenter = new ESpaceCenter();
+			var eSpaceCenter = new ESpaceCenter(Mock.Of<IESpaceRepository>());
 
 			// preparing
 
@@ -44,7 +45,7 @@ namespace StretchOS.Proxy.UnitTests.ESpaces
 		[Test]
 		public void AddOrUpdateESpace_ESpaceIsAlreadyPresent_DoesNotThrow()
 		{
-			var eSpaceCenter = new ESpaceCenter();
+			var eSpaceCenter = new ESpaceCenter(Mock.Of<IESpaceRepository>());
 
 			// preparing
 
@@ -64,7 +65,7 @@ namespace StretchOS.Proxy.UnitTests.ESpaces
 		[Test]
 		public void AddOrUpdateESpace_ESpaceChangedName_NameIsChangedForAll()
 		{
-			var eSpaceCenter = new ESpaceCenter();
+			var eSpaceCenter = new ESpaceCenter(Mock.Of<IESpaceRepository>());
 
 			// preparing
 
@@ -100,7 +101,7 @@ namespace StretchOS.Proxy.UnitTests.ESpaces
 		[Test]
 		public void AddConsumers_ConsumerAlreadyKnown_IsAddedAsKnownConsumer()
 		{
-			var eSpaceCenter = new ESpaceCenter();
+			var eSpaceCenter = new ESpaceCenter(Mock.Of<IESpaceRepository>());
 
 			// preparing
 
