@@ -1,6 +1,7 @@
 ﻿using Moq;
 using NUnit.Framework;
 using StretchOS.Proxy.ESpaces;
+using StretchOS.Proxy.ESpaces.Repositories;
 using System.Linq;
 
 namespace StretchOS.Proxy.UnitTests.ESpaces

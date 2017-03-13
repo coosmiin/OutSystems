@@ -1,5 +1,4 @@
-﻿using Newtonsoft.Json;
-using System;
+﻿using StretchOS.Proxy.ESpaces.Repositories;
 using System.Collections.Generic;
 using System.Linq;
 
@@ -9,11 +8,13 @@ namespace StretchOS.Proxy.ESpaces
 	{
 		private readonly IESpaceRepository _repository;
 
-		private readonly IDictionary<int, IESpace> _eSpaces = new Dictionary<int, IESpace>();
+		private readonly IDictionary<int, IESpace> _eSpaces;
 
 		public ESpaceCenter(IESpaceRepository repository)
 		{
 			_repository = repository;
+
+			_eSpaces = _repository.LoadState();
 		}
 
 		public void AddOrUpdateESpace(IESpace eSpace)

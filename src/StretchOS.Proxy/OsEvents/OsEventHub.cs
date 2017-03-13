@@ -58,6 +58,8 @@ namespace StretchOS.Proxy.OsEvents
 
 					_eSpaceCenter.AddConsumers(transaction.ESpaceId, osPublishCompletedEvent.ConsumerNames);
 
+					_eSpaceCenter.SaveState();
+
 					Console.WriteLine($"Publish completed for: {osPublishCompletedEvent.ESpaceName}, VersionId: {osPublishCompletedEvent.VersionId}");
 					Console.WriteLine($"The following eSpaces are outdated: {string.Join(", ", osPublishCompletedEvent.ConsumerNames)}");
 

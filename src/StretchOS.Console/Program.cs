@@ -5,6 +5,7 @@ using StretchOS.Proxy.Parsers;
 using StretchOS.Proxy.Sniffers;
 using StretchOS.Proxy.OsEvents;
 using StretchOS.Proxy.ESpaces;
+using StretchOS.Proxy.ESpaces.Repositories;
 
 namespace StretchOS.Console
 {
@@ -20,6 +21,7 @@ namespace StretchOS.Console
 			// on Console exit make sure we also exit the proxy
 			SetConsoleCtrlHandler(ConsoleEventCallback, true);
 
+            // TODO: Fix serialization/deserialization for eSpaces.json
 			_osEventHub = 
 				new OsEventHub(
 					new ESpaceCenter(

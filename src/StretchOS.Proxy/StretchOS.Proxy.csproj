@@ -62,8 +62,9 @@
     <Compile Include="ESpaces\IESpace.cs" />
     <Compile Include="ESpaces\IESpaceCenter.cs" />
     <Compile Include="Domain\OsPublishTransaction.cs" />
-    <Compile Include="ESpaces\ESpaceFileSystemRepository.cs" />
-    <Compile Include="ESpaces\IESpaceRepository.cs" />
+    <Compile Include="ESpaces\Repositories\ESpaceFileSystemRepository.cs" />
+    <Compile Include="ESpaces\Repositories\IESpaceRepository.cs" />
+    <Compile Include="ESpaces\Serialization\ESpaceJsonConverter.cs" />
     <Compile Include="OsEvents\IOsEvent.cs" />
     <Compile Include="OsEvents\IOsEventHub.cs" />
     <Compile Include="OsEvents\OsPublishCompletedEvent.cs" />
@@ -97,7 +98,9 @@
     <Compile Include="Properties\AssemblyInfo.cs" />
   </ItemGroup>
   <ItemGroup>
-    <None Include="app.config" />
+    <None Include="app.config">
+      <SubType>Designer</SubType>
+    </None>
     <None Include="packages.config" />
     <None Include="Service References\OutSystemsService\ServiceStudio.wsdl" />
     <None Include="Service References\OutSystemsService\StretchOS.Proxy.OutSystemsService.AbstractRecord.datasource">
@@ -200,7 +203,6 @@
       <LastGenOutput>Reference.cs</LastGenOutput>
     </None>
   </ItemGroup>
-  <ItemGroup />
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
   <!-- To modify your build process, add your task inside one of the targets below and uncomment it. 
        Other similar extension points exist, see Microsoft.Common.targets.
