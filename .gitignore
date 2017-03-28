@@ -8,3 +8,4 @@
 **/src/packages
 **/src/*/Properties/PublishProfiles
 **/src/*/*.csproj.user
+**/src/.vscode
