@@ -6,6 +6,7 @@
 **/src/*/obj
 **/src/*/bin
 **/src/packages
-**/src/*/Properties/PublishProfiles
+**/src/*/Properties
 **/src/*/*.csproj.user
 **/src/.vscode
+**/src/*/debug.log
