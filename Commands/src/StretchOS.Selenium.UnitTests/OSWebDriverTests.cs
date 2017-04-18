@@ -14,7 +14,7 @@ namespace StretchOS.Selenium.UnitTests
 			var seleniumWebDriverStub =
 				Mock.Of<IWebDriver>(m => m.Navigate() == navigateMock.Object);
 
-			var osWebDriver = new OSWebDriver(seleniumWebDriverStub);
+			var osWebDriver = new OSWebDriver(/*seleniumWebDriverStub*/);
 			osWebDriver.GoTo("http://www.google.com");
 
 			navigateMock.Verify(m => m.GoToUrl(It.IsAny<string>()), Times.Once());

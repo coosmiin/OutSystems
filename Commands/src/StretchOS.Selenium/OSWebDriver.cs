@@ -1,5 +1,6 @@
 ﻿using OpenQA.Selenium;
 using OpenQA.Selenium.Chrome;
+using System;
 
 namespace StretchOS.Selenium
 {
@@ -7,13 +8,13 @@ namespace StretchOS.Selenium
 	{
 		private readonly IWebDriver _driver;
 
-		public OSWebDriver(IWebDriver webDriver)
+		public OSWebDriver(IWebDriver webDriver = null)
 		{
 			_driver = webDriver;
 
 			if (_driver == null)
 			{
-				_driver = new ChromeDriver();
+				_driver = new ChromeDriver(AppContext.BaseDirectory);
 			}
 		}
 
