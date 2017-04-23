@@ -73,7 +73,7 @@ namespace StretchOS.Selenium.WebDriver
 
 		public void Close()
 		{
-			_driver.Close();
+			_driver.Quit();
 		}
 	}
 }
