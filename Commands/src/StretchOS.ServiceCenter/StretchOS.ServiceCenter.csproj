@@ -9,5 +9,13 @@
   <PropertyGroup>
     <RuntimeIdentifiers>win10-x64</RuntimeIdentifiers>
   </PropertyGroup>
+  
+  <ItemGroup>
+    <None Remove="debug.log" />
+  </ItemGroup>
+  
+  <ItemGroup>
+    <ProjectReference Include="..\StretchOS.Selenium\StretchOS.Selenium.csproj" />
+  </ItemGroup>
 
 </Project>
