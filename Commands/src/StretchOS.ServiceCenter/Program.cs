@@ -10,6 +10,7 @@ namespace StretchOS.ServiceCenter
 	{
 		static void Main(string[] args)
 		{
+			// TODO: add try catch around web driver such that it doesn't block the app in case of an Exception
 			Command command = 
 				new DownloadCommand(
 					Console.Out, 
@@ -17,7 +18,7 @@ namespace StretchOS.ServiceCenter
 						new OSWebDriver(
 							new OSWebDriverSettings(
 								args[1] + "/ServiceCenter/",
-								AuthActions.LoginAction(args[2], args[3]), AuthActions.LoginCheck))), 
+								AuthActions.LoginAction(args[4], args[5]), AuthActions.LoginCheck))), 
 					args);
 
 			command.Execute();
