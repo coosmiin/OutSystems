@@ -1,4 +1,5 @@
 ﻿using OpenQA.Selenium;
+using StretchOS.Core.SystemIO;
 using StretchOS.Selenium.WebDriver;
 using StretchOS.ServiceCenter.Domain;
 using System;
@@ -9,19 +10,21 @@ namespace StretchOS.ServiceCenter.WebProxy
 	public class ServiceCenterWebProxy : IServiceCenterWebProxy
 	{
 		private readonly IOSWebDriver _webDriver;
+		private readonly ISystemIOWrapper _systemIOWrapper;
 
-		public ServiceCenterWebProxy(IOSWebDriver webDriver)
+		public ServiceCenterWebProxy(IOSWebDriver webDriver, ISystemIOWrapper systemIOWrapper)
 		{
 			_webDriver = webDriver;
+			_systemIOWrapper = systemIOWrapper;
 		}
 
 		public void DownloadErrorLog(SearchSettings settings)
 		{
 			string filePath = Path.Combine(AppContext.BaseDirectory, "ErrorLog.xlsx");
 
-			if (File.Exists(filePath))
+			if (_systemIOWrapper.FileExists(filePath))
 			{
-				File.Delete(filePath);
+				_systemIOWrapper.FileDelete(filePath);
 			}
 
 			_webDriver
@@ -30,7 +33,8 @@ namespace StretchOS.ServiceCenter.WebProxy
 				.Fill(By.CssSelector("input[id*=ToDate]"), settings.End)
 				.Click(By.CssSelector(".TableRecords_TopNavigation a"));
 
-			while (!File.Exists(filePath)) ;
+			// TODO: What if the file will never exist?
+			while (!_systemIOWrapper.FileExists(filePath)) ;
 
 			_webDriver.Close();
 
@@ -40,9 +44,9 @@ namespace StretchOS.ServiceCenter.WebProxy
 
 			string newFolderPath = Path.Combine(AppContext.BaseDirectory, "ErrorLogs");
 
-			if (!Directory.Exists(newFolderPath))
+			if (!_systemIOWrapper.DirectoryExists(newFolderPath))
 			{
-				Directory.CreateDirectory(newFolderPath);
+				_systemIOWrapper.CreateDirectory(newFolderPath);
 			}
 
 			string newFilePath = Path.Combine(newFolderPath, newFileName);

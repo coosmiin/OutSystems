@@ -1,5 +1,6 @@
 ﻿using Moq;
 using StretchOS.ServiceCenter.Commands;
+using StretchOS.ServiceCenter.Domain;
 using StretchOS.ServiceCenter.WebProxy;
 using System.IO;
 using Xunit;
@@ -52,7 +53,7 @@ namespace StretchOS.ServiceCenter.UnitTests.Commands
 			var command = new DownloadCommand(writer, webProxyMock.Object, "--error");
 			command.Execute();
 
-			webProxyMock.Verify(w => w.DownloadErrorLog(), Times.Once);
+			webProxyMock.Verify(w => w.DownloadErrorLog(It.IsAny<SearchSettings>()), Times.Once);
 		}
 	}
 }

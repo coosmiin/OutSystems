@@ -12,6 +12,7 @@
   </ItemGroup>
 
   <ItemGroup>
+    <ProjectReference Include="..\StretchOS.Core\StretchOS.Core.csproj" />
     <ProjectReference Include="..\StretchOS.ServiceCenter\StretchOS.ServiceCenter.csproj" />
   </ItemGroup>
 
