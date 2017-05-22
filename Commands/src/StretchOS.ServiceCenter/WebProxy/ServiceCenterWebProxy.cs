@@ -2,8 +2,10 @@
 using StretchOS.Core.SystemIO;
 using StretchOS.Selenium.WebDriver;
 using StretchOS.ServiceCenter.Domain;
+using StretchOS.Core.Utils;
 using System;
 using System.IO;
+using System.Threading.Tasks;
 
 namespace StretchOS.ServiceCenter.WebProxy
 {
@@ -27,20 +29,16 @@ namespace StretchOS.ServiceCenter.WebProxy
 				_systemIOWrapper.FileDelete(filePath);
 			}
 
-			_webDriver
-				.GoTo("Error_Logs.aspx")
-				.Fill(By.CssSelector("input[id$=FromDate]"), settings.Start)
-				.Fill(By.CssSelector("input[id*=ToDate]"), settings.End)
-				.Click(By.CssSelector(".TableRecords_TopNavigation a"));
+			Task downloadTask = Task.Run(
+				() => DowloadErrorLog(_webDriver, settings.Start, settings.End, filePath));
 
-			// TODO: What if the file will never exist?
-			while (!_systemIOWrapper.FileExists(filePath)) ;
+			if (!downloadTask.Wait(TimeSpan.FromSeconds(5)))
+			{
+				throw new Exception("ErrorLog.xlsx download failed");
+			};
 
-			_webDriver.Close();
-
-			// TODO: Logic and tests for empty start and end date texts
 			string newFileName =
-				$"ErrorLog_{ToFileNameCompliant(settings.Start)}_{ToFileNameCompliant(settings.End)}.xlsx";
+				$"ErrorLog_{settings.Start.ToFileNameCompliant()}_{settings.End.ToFileNameCompliant()}.xlsx";
 
 			string newFolderPath = Path.Combine(AppContext.BaseDirectory, "ErrorLogs");
 
@@ -59,10 +57,17 @@ namespace StretchOS.ServiceCenter.WebProxy
 			File.Move(filePath, newFilePath);
 		}
 
-		// TODO: this is not testable - extract it to its own class :(
-		private string ToFileNameCompliant(string dateText)
+		private void DowloadErrorLog(IOSWebDriver webDriver, string start, string end, string filePath)
 		{
-			return dateText.Replace("-", string.Empty).Replace(" ", "-").Replace(":", string.Empty);
+			webDriver
+				.GoTo("Error_Logs.aspx")
+				.Fill(By.CssSelector("input[id$=FromDate]"), start)
+				.Fill(By.CssSelector("input[id*=ToDate]"), end)
+				.Click(By.CssSelector(".TableRecords_TopNavigation a"));
+
+			while (!_systemIOWrapper.FileExists(filePath)) ;
+
+			webDriver.Close();
 		}
 	}
 }

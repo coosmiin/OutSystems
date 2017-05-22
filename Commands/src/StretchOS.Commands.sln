@@ -1,7 +1,7 @@
 ﻿
 Microsoft Visual Studio Solution File, Format Version 12.00
 # Visual Studio 15
-VisualStudioVersion = 15.0.26403.7
+VisualStudioVersion = 15.0.26430.6
 MinimumVisualStudioVersion = 10.0.40219.1
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "StretchOS.ServiceCenter", "StretchOS.ServiceCenter\StretchOS.ServiceCenter.csproj", "{87AFDCF9-2874-40D9-ADE9-62469C9AADC6}"
 EndProject
@@ -16,6 +16,8 @@ EndProject
 Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Tests", "Tests", "{C2D43476-AD1E-4B5A-AE10-FB8E1AF716B8}"
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "StretchOS.Core", "StretchOS.Core\StretchOS.Core.csproj", "{7BFA4E47-11DA-4E4D-BC27-C2D7AC3766F7}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "StretchOS.Core.Tests", "StretchOS.Core.Tests\StretchOS.Core.Tests.csproj", "{DF1576D8-3D24-4E0A-8AA5-6AA62C944320}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
@@ -47,6 +49,10 @@ Global
 		{7BFA4E47-11DA-4E4D-BC27-C2D7AC3766F7}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{7BFA4E47-11DA-4E4D-BC27-C2D7AC3766F7}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{7BFA4E47-11DA-4E4D-BC27-C2D7AC3766F7}.Release|Any CPU.Build.0 = Release|Any CPU
+		{DF1576D8-3D24-4E0A-8AA5-6AA62C944320}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{DF1576D8-3D24-4E0A-8AA5-6AA62C944320}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{DF1576D8-3D24-4E0A-8AA5-6AA62C944320}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{DF1576D8-3D24-4E0A-8AA5-6AA62C944320}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE
@@ -54,5 +60,6 @@ Global
 	GlobalSection(NestedProjects) = preSolution
 		{3557BAD8-B6B2-428E-924C-CE612D47B68F} = {C2D43476-AD1E-4B5A-AE10-FB8E1AF716B8}
 		{7790CDE4-7614-48FE-9982-7291A848EE88} = {C2D43476-AD1E-4B5A-AE10-FB8E1AF716B8}
+		{DF1576D8-3D24-4E0A-8AA5-6AA62C944320} = {C2D43476-AD1E-4B5A-AE10-FB8E1AF716B8}
 	EndGlobalSection
 EndGlobal

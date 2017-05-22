@@ -4,6 +4,7 @@ using StretchOS.Core.SystemIO;
 using StretchOS.Selenium.WebDriver;
 using StretchOS.ServiceCenter.Domain;
 using StretchOS.ServiceCenter.WebProxy;
+using System;
 using Xunit;
 
 namespace StretchOS.ServiceCenter.UnitTests.WebProxy
@@ -11,7 +12,7 @@ namespace StretchOS.ServiceCenter.UnitTests.WebProxy
 	public class ServiceCenterWebProxyTests
 	{
 		[Fact]
-		public void DownloadErrorLog_DownloadFails_MethodExitsCorrectly()
+		public void DownloadErrorLog_DownloadFails_ExceptionIsThrown()
 		{
 			var serviceCenterProxy =
 				new ServiceCenterWebProxy(
@@ -21,7 +22,10 @@ namespace StretchOS.ServiceCenter.UnitTests.WebProxy
 					Mock.Of<ISystemIOWrapper>(
 						w => w.FileExists(It.IsAny<string>()) == false));
 
-			serviceCenterProxy.DownloadErrorLog(new SearchSettings());
+			Exception ex = Record.Exception(() => serviceCenterProxy.DownloadErrorLog(new SearchSettings()));
+
+			Assert.NotNull(ex);
+			Assert.True(ex.Message.Contains("download failed"));
 		}
 	}
 }
