@@ -1,13 +1,18 @@
 ﻿using StretchOS.ServiceCenter.Domain;
 using StretchOS.ServiceCenter.WebProxy;
+using System;
+using System.Globalization;
 
 namespace StretchOS.ServiceCenter.Commands
 {
 	public class DownloadCommand : ICommand
 	{
 		private readonly IServiceCenterWebProxy _webProxy;
-		private readonly string _knownParameter = "--error-log";
 		private readonly string[] _parameters;
+
+		private const string TARGET_PARAM_ERROR_LOG = "--error-log";
+
+		private ValidationRule[] _validationRules = GetValidationRules();
 
 		public DownloadCommand(IServiceCenterWebProxy webProxy, params string[] parameters)
 		{
@@ -17,29 +22,84 @@ namespace StretchOS.ServiceCenter.Commands
 
 		public void Execute()
 		{
-			// TODO: Write a test for the conditional operator?
 			_webProxy.DownloadErrorLog(
 				new SearchSettings
 				{
-					Start = _parameters.Length > 2 ? _parameters[2] : string.Empty,
-					End = _parameters.Length > 3 ? _parameters[3] : string.Empty
+					Start = GetParamAt(1),
+					End = GetParamAt(2)
 				});
-		}
-
-		protected string GetDescription()
-		{
-			// TODO: This is not an error message. It should describe the usage.
-			return $"Unknown parameter: {_parameters[0]}\n";
 		}
 
 		public CommandValidationResult Validate()
 		{
-			// TODO: Parameters parsing & validation
-			return
-				new CommandValidationResult
+			for (int index = 0; index < _parameters.Length; index++)
+			{
+				if (index == _validationRules.Length)
 				{
-					IsValid = _knownParameter.Equals(_parameters[0])
-				};		
+					return
+						new CommandValidationResult
+						{
+							IsValid = true,
+							ValidationText = $"Warning, unknown parameter: {_parameters[index]}"
+						};
+				}
+
+				var validationRule = _validationRules[index];
+
+				bool isValid = validationRule.Rule(_parameters[index]);
+
+				if (!isValid)
+				{
+					return
+						new CommandValidationResult
+						{
+							IsValid = false,
+							ValidationText = string.Format(validationRule.ErrorMessageFormat, _parameters[index])
+						};
+				}
+			}
+
+			return new CommandValidationResult { IsValid = true };
 		}
+
+		#region Private Methods
+
+		private string GetParamAt(int index)
+		{
+			return _parameters.Length > index ? _parameters[index] : string.Empty;
+		}
+
+		private static bool ValidateDate(string param)
+		{
+			return DateTime.TryParseExact(param, "yyyy-MM-dd HH:mm:ss", CultureInfo.InvariantCulture, DateTimeStyles.None, out DateTime date);
+		}
+
+		private static ValidationRule[] GetValidationRules()
+		{
+			return
+				new[]
+				{
+					// param[0]
+					new ValidationRule
+					{
+						Rule = param => param.Equals(TARGET_PARAM_ERROR_LOG),
+						ErrorMessageFormat = "Unknown parameter: {0}"
+					},
+					// param[1]
+					new ValidationRule
+					{
+						Rule = ValidateDate,
+						ErrorMessageFormat = "StartDate is invalid"
+					},
+					// param[2]
+					new ValidationRule
+					{
+						Rule = ValidateDate,
+						ErrorMessageFormat = "EndDate is invalid"
+					},
+				};
+		}
+
+		#endregion Private Methods
 	}
 }

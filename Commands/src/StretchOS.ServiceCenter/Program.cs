@@ -19,18 +19,20 @@ namespace StretchOS.ServiceCenter
 			}
 			catch (Exception ex)
 			{
-				Console.WriteLine("ERROR: {0}", ex.Message);
+				Console.WriteLine($"ERROR: {ex.Message}; Details: {ex.InnerException?.Message}");
 			}
 		}
 
 		private static ICommandRunner CreateCommandRunner(string[] args)
 		{
+			// TODO: extract global parameters like host and credential
+			// TODO: add the actual download command keyword
 			ICommand command =
 				new DownloadCommand(
 					new ServiceCenterWebProxy(
 						new OSWebDriver(
 							new OSWebDriverSettings(
-								args[1] + "/ServiceCenter/",
+								args[3] + "/ServiceCenter/",
 								AuthActions.LoginAction(args[4], args[5]), AuthActions.LoginCheck)),
 						new SystemIOWrapper()),
 					args);

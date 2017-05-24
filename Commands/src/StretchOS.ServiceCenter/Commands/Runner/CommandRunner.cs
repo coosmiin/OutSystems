@@ -17,13 +17,15 @@ namespace StretchOS.ServiceCenter.Commands.Runner
 		{
 			CommandValidationResult validationResult = _command.Validate();
 
-			if (!validationResult.IsValid)
+			if (!string.IsNullOrEmpty(validationResult.ValidationText))
 			{
 				_textWriter.WriteLine(validationResult.ValidationText);
-				return;
 			}
 
-			_command.Execute();
+			if (validationResult.IsValid)
+			{
+				_command.Execute();
+			}			
 		}
 	}
 }

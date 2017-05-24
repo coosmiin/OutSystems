@@ -33,23 +33,6 @@ namespace StretchOS.ServiceCenter.UnitTests.Commands.Runner
 		}
 
 		[Fact]
-		public void Run_CommandIsValid_NoExplanationIsWrittenToOutput()
-		{
-			var writer = new StringWriter();
-
-			var commandMock = new Mock<ICommand>();
-			commandMock
-				.Setup(c => c.Validate())
-				.Returns(Mock.Of<CommandValidationResult>(
-					r => r.IsValid == true && r.ValidationText == "CMD_DESCR"));
-
-			var commandRunner = new CommandRunner(commandMock.Object, writer);
-			commandRunner.Run();
-
-			Assert.True(string.IsNullOrEmpty(writer.ToString()));
-		}
-
-		[Fact]
 		public void Run_CommandIsNotValid_DescriptionIsWrittenToOutput()
 		{
 			var writer = new StringWriter();
@@ -64,6 +47,22 @@ namespace StretchOS.ServiceCenter.UnitTests.Commands.Runner
 			commandRunner.Run();
 
 			Assert.Equal("CMD_DESCR\r\n", writer.ToString());
+		}
+
+		[Fact]
+		public void Run_CommandIsValidWithValidationWarning_WarningIsWrittenToOutput()
+		{
+			var writer = new StringWriter();
+
+			var commandMock = new Mock<ICommand>();
+			commandMock
+				.Setup(c => c.Validate())
+				.Returns(Mock.Of<CommandValidationResult>(r => r.IsValid == true && r.ValidationText == "WARNING"));
+
+			var commandRunner = new CommandRunner(commandMock.Object, writer);
+			commandRunner.Run();
+
+			Assert.Equal("WARNING\r\n", writer.ToString());
 		}
 	}
 }

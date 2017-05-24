@@ -10,6 +10,58 @@ namespace StretchOS.ServiceCenter.UnitTests.Commands
 	public class DownloadCommandTests
 	{
 		[Fact]
+		public void Execute_InnerDownloadErrorLogMethodIsCalled()
+		{
+			var webProxyMock = new Mock<IServiceCenterWebProxy>();
+
+			var command = new DownloadCommand(webProxyMock.Object, "--error");
+			command.Execute();
+
+			webProxyMock.Verify(w => w.DownloadErrorLog(It.IsAny<SearchSettings>()), Times.Once);
+		}
+
+		[Fact]
+		public void Execute_WithNoStartDate_InnerDownloadErrorLogMethodIsCalledWithEmptyParams()
+		{
+			var webProxyMock = new Mock<IServiceCenterWebProxy>();
+
+			var command = new DownloadCommand(webProxyMock.Object, "--error");
+			command.Execute();
+
+			webProxyMock.Verify(
+				w => w.DownloadErrorLog(
+					It.Is<SearchSettings>(s => s.Start == string.Empty && s.End == string.Empty)), 
+				Times.Once);
+		}
+
+		[Fact]
+		public void Execute_WithNoEndDate_InnerDownloadErrorLogMethodIsCalledWithEmptyParamForEndDate()
+		{
+			var webProxyMock = new Mock<IServiceCenterWebProxy>();
+
+			var command = new DownloadCommand(webProxyMock.Object, "--error", "2017-12-01 00:00:00");
+			command.Execute();
+
+			webProxyMock.Verify(
+				w => w.DownloadErrorLog(
+					It.Is<SearchSettings>(s => s.Start != string.Empty && s.End == string.Empty)),
+				Times.Once);
+		}
+
+		public void Execute_WithStartAndEndDate_InnerDownloadErrorLogMethodIsCalledWithNonEmptyParams()
+		{
+			var webProxyMock = new Mock<IServiceCenterWebProxy>();
+
+			var command = new DownloadCommand(webProxyMock.Object, "--error", "2017-12-01 00:00:00");
+			command.Execute();
+
+			webProxyMock.Verify(
+				w => w.DownloadErrorLog(
+					It.Is<SearchSettings>(s => s.Start != string.Empty && s.End != string.Empty)),
+				Times.Once);
+		}
+
+		[Fact]
 		public void Validate_KnownParam_IsValid()
 		{
 			var writer = new StringWriter();
@@ -34,27 +86,84 @@ namespace StretchOS.ServiceCenter.UnitTests.Commands
 		}
 
 		[Fact]
-		public void Validate_MultipleUnknownParams_OnlyFirstUnknownParamMessageWrittenToOutput()
+		public void Validate_MultipleUnknownParams_ValidationErrorForFirstUnknownParam()
 		{
-			// TODO: (re)write this test?
-			var writer = new StringWriter();
-
 			string unknownParam = "unknown-param";
 
 			var command = new DownloadCommand(Mock.Of<IServiceCenterWebProxy>(), unknownParam, "sss");
+			var result = command.Validate();
 
-			Assert.Contains($"Unknown parameter: {unknownParam}\n", writer.ToString());
+			Assert.False(result.IsValid);
+			Assert.Contains($"Unknown parameter: {unknownParam}", result.ValidationText);
 		}
 
 		[Fact]
-		public void Execute_InnerDownloadErrorLogMethodIsCalled()
+		public void Validate_TooManyParameters_IsValidButWithValidationMessageForFirstUnknownParam()
 		{
-			var webProxyMock = new Mock<IServiceCenterWebProxy>();
+			string unknownParam = "unknown-param";
 
-			var command = new DownloadCommand(webProxyMock.Object, "--error");
-			command.Execute();
+			var command = 
+				new DownloadCommand(
+					Mock.Of<IServiceCenterWebProxy>(), "--error-log", "2017-12-01 00:00:00", "2017-12-01 00:00:00", unknownParam, "some other param");
 
-			webProxyMock.Verify(w => w.DownloadErrorLog(It.IsAny<SearchSettings>()), Times.Once);
+			var result = command.Validate();
+
+			Assert.True(result.IsValid);
+			Assert.Contains($"unknown parameter: {unknownParam}", result.ValidationText);
+		}
+
+		[Fact]
+		public void Validate_InvalidStartDate_StartDateValidationError()
+		{
+			var writer = new StringWriter();
+
+			var command = new DownloadCommand(Mock.Of<IServiceCenterWebProxy>(), "--error-log", "2017-13-01 00:00:00");
+			var result = command.Validate();
+
+			Assert.False(result.IsValid);
+			Assert.Equal("StartDate is invalid", result.ValidationText);
+		}
+
+		[Fact]
+		public void Validate_ValidStartDate_IsValid()
+		{
+			var writer = new StringWriter();
+
+			var command = new DownloadCommand(Mock.Of<IServiceCenterWebProxy>(), "--error-log", "2017-12-01 00:00:00");
+			var result = command.Validate();
+
+			Assert.True(result.IsValid);
+		}
+
+
+		[Fact]
+		public void Validate_ValidStartDateIn24hFormat_IsValid()
+		{
+			var writer = new StringWriter();
+
+			var command = new DownloadCommand(Mock.Of<IServiceCenterWebProxy>(), "--error-log", "2017-05-01 23:59:59");
+			var result = command.Validate();
+
+			Assert.True(result.IsValid);
+		}
+
+		[Fact]
+		public void Validate_ValidStartDate_InvalidEndDate_EndDateValidationError()
+		{
+			var command = new DownloadCommand(Mock.Of<IServiceCenterWebProxy>(), "--error-log", "2017-12-01 00:00:00", "2017-13-01 00:00:00");
+			var result = command.Validate();
+
+			Assert.False(result.IsValid);
+			Assert.Equal("EndDate is invalid", result.ValidationText);
+		}
+
+		[Fact]
+		public void Validate_ValidStartAndEndDate_IsValid()
+		{
+			var command = new DownloadCommand(Mock.Of<IServiceCenterWebProxy>(), "--error-log", "2017-12-01 00:00:00", "2017-12-01 00:00:00");
+			var result = command.Validate();
+
+			Assert.True(result.IsValid);
 		}
 	}
 }
