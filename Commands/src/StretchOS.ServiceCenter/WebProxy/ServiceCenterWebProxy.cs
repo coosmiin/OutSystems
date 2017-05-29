@@ -13,11 +13,13 @@ namespace StretchOS.ServiceCenter.WebProxy
 	{
 		private readonly IOSWebDriver _webDriver;
 		private readonly ISystemIOWrapper _systemIOWrapper;
+		private readonly int _timeoutSeconds;
 
-		public ServiceCenterWebProxy(IOSWebDriver webDriver, ISystemIOWrapper systemIOWrapper)
+		public ServiceCenterWebProxy(IOSWebDriver webDriver, ISystemIOWrapper systemIOWrapper, int timeoutSeconds = 5 * 60)
 		{
 			_webDriver = webDriver;
 			_systemIOWrapper = systemIOWrapper;
+			_timeoutSeconds = timeoutSeconds;
 		}
 
 		public void DownloadErrorLog(SearchSettings settings)
@@ -32,9 +34,9 @@ namespace StretchOS.ServiceCenter.WebProxy
 			Task downloadTask = Task.Run(
 				() => DowloadErrorLog(_webDriver, settings.Start, settings.End, filePath));
 
-			if (!downloadTask.Wait(TimeSpan.FromSeconds(5)))
+			if (!downloadTask.Wait(TimeSpan.FromMinutes(_timeoutSeconds)))
 			{
-				throw new Exception("ErrorLog.xlsx download failed");
+				throw new Exception($"ErrorLog.xlsx download failed or timed out in {_timeoutSeconds} seconds");
 			};
 
 			string newFileName =

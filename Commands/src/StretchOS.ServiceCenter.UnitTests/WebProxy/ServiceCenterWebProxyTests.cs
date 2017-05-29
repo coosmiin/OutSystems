@@ -20,7 +20,8 @@ namespace StretchOS.ServiceCenter.UnitTests.WebProxy
 						d => d.GoTo(It.IsAny<string>()) == d 
 							&& d.Fill(It.IsAny<By>(), It.IsAny<string>()) == d),
 					Mock.Of<ISystemIOWrapper>(
-						w => w.FileExists(It.IsAny<string>()) == false));
+						w => w.FileExists(It.IsAny<string>()) == false),
+					0 /* timeout */);
 
 			Exception ex = Record.Exception(() => serviceCenterProxy.DownloadErrorLog(new SearchSettings()));
 
