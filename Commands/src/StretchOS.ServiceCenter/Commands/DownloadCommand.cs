@@ -1,32 +1,86 @@
-﻿using StretchOS.ServiceCenter.WebProxy;
-using System.IO;
+using StretchOS.ServiceCenter.Domain;
+using StretchOS.ServiceCenter.Validation;
+using StretchOS.ServiceCenter.WebProxy;
+using System;
+using System.Globalization;
+using System.Linq;
 
 namespace StretchOS.ServiceCenter.Commands
 {
-	public class DownloadCommand : Command
+	public class DownloadCommand : CommandBase
 	{
-		private readonly IServiceCenterWebProxy _webProxy;
-		private readonly string _knownParameter = "--error";
+		public const string COMMAND = "download";
 
-		public DownloadCommand(TextWriter textWriter, IServiceCenterWebProxy webProxy, params string[] parameters) 
-			: base(textWriter, parameters)
+		private const string START_DATE_PARAM_NAME = "start-date";
+		private const string END_DATE_PARAM_NAME = "end-date";
+
+		private readonly IServiceCenterWebProxy _webProxy;
+		private readonly string[] _targetAllowedValues = new[] { "--error-log" };
+
+		public DownloadCommand(IServiceCenterWebProxy webProxy, params string[] parameters)
+			: base(parameters)
 		{
 			_webProxy = webProxy;
 		}
 
 		public override void Execute()
 		{
-			_webProxy.DownloadErrorLog();
+			_webProxy.DownloadErrorLog(
+				new SearchSettings
+				{
+					Start = GetParamAt(1),
+					End = GetParamAt(2)
+				});
 		}
 
-		protected override string GetDescription()
+		protected override CommandParameter[] GetCommandParameters()
 		{
-			return $"Unknown parameter: {Parameters[0]}\n";
+			return
+				new[]
+				{
+					// param[0]
+					new CommandParameter
+					{
+						Name = "target",
+						AllowedValues = _targetAllowedValues,
+						ValidationRule = new ValidationRule()
+						{
+							Rule = param => _targetAllowedValues.Contains(param),
+							ErrorMessageFormat = "Unknown parameter: {0}"
+						},
+						Mandatory = true
+					},
+					// param[1]
+					new CommandParameter
+					{
+						Name = START_DATE_PARAM_NAME,
+						ValidationRule = new ValidationRule()
+						{
+							Rule = ValidateDate,
+							ErrorMessageFormat = $"[{START_DATE_PARAM_NAME}] is invalid"
+						}
+					},
+					// param[2]
+					new CommandParameter
+					{
+						Name = END_DATE_PARAM_NAME,
+						ValidationRule = new ValidationRule()
+						{
+							Rule = ValidateDate,
+							ErrorMessageFormat = $"[{END_DATE_PARAM_NAME}] is invalid"
+						}
+					},
+				};
 		}
 
-		protected override bool IsValid()
+		protected override string GetCommandName()
 		{
-			return _knownParameter.Equals(Parameters[0]);
+			return COMMAND;
+		}
+
+		private static bool ValidateDate(string param)
+		{
+			return DateTime.TryParseExact(param, "yyyy-MM-dd HH:mm:ss", CultureInfo.InvariantCulture, DateTimeStyles.None, out DateTime date);
 		}
 	}
 }

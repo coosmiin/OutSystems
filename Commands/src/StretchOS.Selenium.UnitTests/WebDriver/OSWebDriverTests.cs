@@ -2,7 +2,6 @@ using OpenQA.Selenium;
 using Moq;
 using Xunit;
 using StretchOS.Selenium.WebDriver;
-using System.Collections.Generic;
 using System.Collections.ObjectModel;
 
 namespace StretchOS.Selenium.UnitTests.WebDriver

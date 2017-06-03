@@ -15,6 +15,7 @@
   </ItemGroup>
   
   <ItemGroup>
+    <ProjectReference Include="..\StretchOS.Core\StretchOS.Core.csproj" />
     <ProjectReference Include="..\StretchOS.Selenium\StretchOS.Selenium.csproj" />
   </ItemGroup>
 
