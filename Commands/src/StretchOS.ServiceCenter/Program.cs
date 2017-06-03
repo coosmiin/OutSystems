@@ -5,6 +5,7 @@ using StretchOS.ServiceCenter.Commands;
 using StretchOS.ServiceCenter.Commands.Runner;
 using StretchOS.ServiceCenter.WebProxy;
 using System;
+using System.Linq;
 
 namespace StretchOS.ServiceCenter
 {
@@ -12,9 +13,14 @@ namespace StretchOS.ServiceCenter
 	{
 		static void Main(string[] args)
 		{
+			if (!IsValid(args))
+				return;
+
 			try
 			{
-				ICommandRunner commandRunner = CreateCommandRunner(args);
+				ICommand command = CreateCommand(args);
+
+				ICommandRunner commandRunner = new CommandRunner(command, Console.Out); ;
 				commandRunner.Run();
 			}
 			catch (Exception ex)
@@ -23,21 +29,38 @@ namespace StretchOS.ServiceCenter
 			}
 		}
 
-		private static ICommandRunner CreateCommandRunner(string[] args)
+		// TODO: extract command validation in a testable class
+		private static bool IsValid(string[] args)
+		{
+			if (args.Length == 0)
+			{
+				Console.WriteLine("Please provide a command.");
+				return false;
+			}
+
+			if (args[0] != DownloadCommand.COMMAND)
+			{
+				Console.WriteLine("Unknown command: ", args[0]);
+				return false;
+			}
+
+			return true;
+		}
+
+		private static ICommand CreateCommand(string[] args)
 		{
 			// TODO: extract global parameters like host and credential
-			// TODO: add the actual download command keyword
 			ICommand command =
 				new DownloadCommand(
 					new ServiceCenterWebProxy(
 						new OSWebDriver(
 							new OSWebDriverSettings(
-								args[3] + "/ServiceCenter/",
-								AuthActions.LoginAction(args[4], args[5]), AuthActions.LoginCheck)),
+								args[4] + "/ServiceCenter/",
+								AuthActions.LoginAction(args[5], args[6]), AuthActions.LoginCheck)),
 						new SystemIOWrapper()),
-					args);
+					args.Skip(1).ToArray());
 
-			return new CommandRunner(command, Console.Out);
+			return command;
 		}
 	}
 } 

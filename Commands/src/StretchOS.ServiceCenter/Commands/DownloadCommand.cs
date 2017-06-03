@@ -9,7 +9,7 @@ namespace StretchOS.ServiceCenter.Commands
 {
 	public class DownloadCommand : CommandBase
 	{
-		private const string COMMAND = "download";
+		public const string COMMAND = "download";
 
 		private const string START_DATE_PARAM_NAME = "start-date";
 		private const string END_DATE_PARAM_NAME = "end-date";
