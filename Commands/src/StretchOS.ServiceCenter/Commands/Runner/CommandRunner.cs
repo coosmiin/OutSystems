@@ -1,4 +1,5 @@
-﻿using System.IO;
+﻿using StretchOS.ServiceCenter.Validation;
+using System.IO;
 
 namespace StretchOS.ServiceCenter.Commands.Runner
 {
@@ -15,7 +16,7 @@ namespace StretchOS.ServiceCenter.Commands.Runner
 
 		public void Run()
 		{
-			CommandValidationResult validationResult = _command.Validate();
+			ValidationResult validationResult = _command.Validate();
 
 			if (!string.IsNullOrEmpty(validationResult.ValidationText))
 			{
@@ -25,7 +26,11 @@ namespace StretchOS.ServiceCenter.Commands.Runner
 			if (validationResult.IsValid)
 			{
 				_command.Execute();
-			}			
+			}
+			else
+			{
+				_textWriter.WriteLine(_command.GetUsageDescription());
+			}
 		}
 	}
 }

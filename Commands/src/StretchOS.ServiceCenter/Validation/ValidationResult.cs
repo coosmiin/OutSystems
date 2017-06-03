@@ -1,6 +1,6 @@
-﻿namespace StretchOS.ServiceCenter.Commands
+﻿namespace StretchOS.ServiceCenter.Validation
 {
-	public class CommandValidationResult
+	public class ValidationResult
 	{
 		public bool IsValid { get; set; }
 		public string ValidationText { get; set; }

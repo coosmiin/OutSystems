@@ -1,9 +1,11 @@
-﻿namespace StretchOS.ServiceCenter.Commands
+﻿using StretchOS.ServiceCenter.Validation;
+
+namespace StretchOS.ServiceCenter.Commands
 {
 	public interface ICommand
 	{
-		CommandValidationResult Validate();
+		ValidationResult Validate();
 		void Execute();
-		// TODO: GetUsageDescription to be used every time the validation fails
+		string GetUsageDescription();
 	}
 }

@@ -1,6 +1,8 @@
 ﻿using Moq;
 using StretchOS.ServiceCenter.Commands;
 using StretchOS.ServiceCenter.Commands.Runner;
+using StretchOS.ServiceCenter.Validation;
+using System;
 using System.IO;
 using Xunit;
 
@@ -12,7 +14,7 @@ namespace StretchOS.ServiceCenter.UnitTests.Commands.Runner
 		public void Run_CommandIsValid_CommandIsExecuted()
 		{
 			var commandMock = new Mock<ICommand>();
-			commandMock.Setup(c => c.Validate()).Returns(Mock.Of<CommandValidationResult>(r => r.IsValid == true));
+			commandMock.Setup(c => c.Validate()).Returns(Mock.Of<ValidationResult>(r => r.IsValid == true));
 
 			var commandRunner = new CommandRunner(commandMock.Object, Mock.Of<TextWriter>());
 			commandRunner.Run();
@@ -24,7 +26,7 @@ namespace StretchOS.ServiceCenter.UnitTests.Commands.Runner
 		public void Run_CommandIsNotValid_CommandIsNotExecuted()
 		{
 			var commandMock = new Mock<ICommand>();
-			commandMock.Setup(c => c.Validate()).Returns(Mock.Of<CommandValidationResult>(r => r.IsValid == false));
+			commandMock.Setup(c => c.Validate()).Returns(Mock.Of<ValidationResult>(r => r.IsValid == false));
 
 			var commandRunner = new CommandRunner(commandMock.Object, Mock.Of<TextWriter>());
 			commandRunner.Run();
@@ -33,20 +35,23 @@ namespace StretchOS.ServiceCenter.UnitTests.Commands.Runner
 		}
 
 		[Fact]
-		public void Run_CommandIsNotValid_DescriptionIsWrittenToOutput()
+		public void Run_CommandIsNotValid_ValidationTextIsWrittenToOutput()
 		{
 			var writer = new StringWriter();
+
+			string message = "CMD_VLD_MSG";
 
 			var commandMock = new Mock<ICommand>();
 			commandMock
 				.Setup(c => c.Validate())
-				.Returns(Mock.Of<CommandValidationResult>(
-					r => r.IsValid == false && r.ValidationText == "CMD_DESCR"));
+				.Returns(Mock.Of<ValidationResult>(
+					r => r.IsValid == false && r.ValidationText == message));
 
 			var commandRunner = new CommandRunner(commandMock.Object, writer);
 			commandRunner.Run();
 
-			Assert.Equal("CMD_DESCR\r\n", writer.ToString());
+			// Validation message is on first line
+			Assert.Equal(message, writer.ToString().Split("\r\n".ToCharArray(), StringSplitOptions.RemoveEmptyEntries)[0]);
 		}
 
 		[Fact]
@@ -57,12 +62,24 @@ namespace StretchOS.ServiceCenter.UnitTests.Commands.Runner
 			var commandMock = new Mock<ICommand>();
 			commandMock
 				.Setup(c => c.Validate())
-				.Returns(Mock.Of<CommandValidationResult>(r => r.IsValid == true && r.ValidationText == "WARNING"));
+				.Returns(Mock.Of<ValidationResult>(r => r.IsValid == true && r.ValidationText == "WARNING"));
 
 			var commandRunner = new CommandRunner(commandMock.Object, writer);
 			commandRunner.Run();
 
 			Assert.Equal("WARNING\r\n", writer.ToString());
+		}
+
+		[Fact]
+		public void Run_CommandIsNotValid_GetUsageDescriptionIsExecuted()
+		{
+			var commandMock = new Mock<ICommand>();
+			commandMock.Setup(c => c.Validate()).Returns(Mock.Of<ValidationResult>(r => r.IsValid == false));
+
+			var commandRunner = new CommandRunner(commandMock.Object, Mock.Of<TextWriter>());
+			commandRunner.Run();
+
+			commandMock.Verify(c => c.GetUsageDescription(), Times.Once);
 		}
 	}
 }

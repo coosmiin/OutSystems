@@ -14,7 +14,7 @@ namespace StretchOS.ServiceCenter.UnitTests.Commands
 		{
 			var webProxyMock = new Mock<IServiceCenterWebProxy>();
 
-			var command = new DownloadCommand(webProxyMock.Object, "--error");
+			var command = new DownloadCommand(webProxyMock.Object, "--error-log");
 			command.Execute();
 
 			webProxyMock.Verify(w => w.DownloadErrorLog(It.IsAny<SearchSettings>()), Times.Once);
@@ -25,7 +25,7 @@ namespace StretchOS.ServiceCenter.UnitTests.Commands
 		{
 			var webProxyMock = new Mock<IServiceCenterWebProxy>();
 
-			var command = new DownloadCommand(webProxyMock.Object, "--error");
+			var command = new DownloadCommand(webProxyMock.Object, "--error-log");
 			command.Execute();
 
 			webProxyMock.Verify(
@@ -39,7 +39,7 @@ namespace StretchOS.ServiceCenter.UnitTests.Commands
 		{
 			var webProxyMock = new Mock<IServiceCenterWebProxy>();
 
-			var command = new DownloadCommand(webProxyMock.Object, "--error", "2017-12-01 00:00:00");
+			var command = new DownloadCommand(webProxyMock.Object, "--error-log", "2017-12-01 00:00:00");
 			command.Execute();
 
 			webProxyMock.Verify(
@@ -52,7 +52,7 @@ namespace StretchOS.ServiceCenter.UnitTests.Commands
 		{
 			var webProxyMock = new Mock<IServiceCenterWebProxy>();
 
-			var command = new DownloadCommand(webProxyMock.Object, "--error", "2017-12-01 00:00:00");
+			var command = new DownloadCommand(webProxyMock.Object, "--error-log", "2017-12-01 00:00:00");
 			command.Execute();
 
 			webProxyMock.Verify(
@@ -73,28 +73,15 @@ namespace StretchOS.ServiceCenter.UnitTests.Commands
 		}
 
 		[Fact]
-		public void Validate_UnknownParam_IsNotValid()
+		public void Validate_MandatoryParamIsMissing_RequiredParamValidationError()
 		{
 			var writer = new StringWriter();
 
-			string unknownParam = "unknown-param";
-
-			var command = new DownloadCommand(Mock.Of<IServiceCenterWebProxy>(), unknownParam, "sss");
+			var command = new DownloadCommand(Mock.Of<IServiceCenterWebProxy>());
 			var result = command.Validate();
 
 			Assert.False(result.IsValid);
-		}
-
-		[Fact]
-		public void Validate_MultipleUnknownParams_ValidationErrorForFirstUnknownParam()
-		{
-			string unknownParam = "unknown-param";
-
-			var command = new DownloadCommand(Mock.Of<IServiceCenterWebProxy>(), unknownParam, "sss");
-			var result = command.Validate();
-
-			Assert.False(result.IsValid);
-			Assert.Contains($"Unknown parameter: {unknownParam}", result.ValidationText);
+			Assert.Equal("[target] is required. Possible values: [--error-log].", result.ValidationText);
 		}
 
 		[Fact]
@@ -121,7 +108,7 @@ namespace StretchOS.ServiceCenter.UnitTests.Commands
 			var result = command.Validate();
 
 			Assert.False(result.IsValid);
-			Assert.Equal("StartDate is invalid", result.ValidationText);
+			Assert.Equal("[start-date] is invalid", result.ValidationText);
 		}
 
 		[Fact]
@@ -154,7 +141,7 @@ namespace StretchOS.ServiceCenter.UnitTests.Commands
 			var result = command.Validate();
 
 			Assert.False(result.IsValid);
-			Assert.Equal("EndDate is invalid", result.ValidationText);
+			Assert.Equal("[end-date] is invalid", result.ValidationText);
 		}
 
 		[Fact]
