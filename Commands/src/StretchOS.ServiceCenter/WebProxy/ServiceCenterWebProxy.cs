@@ -1,4 +1,4 @@
-﻿using OpenQA.Selenium;
+using OpenQA.Selenium;
 using StretchOS.Core.SystemIO;
 using StretchOS.Selenium.WebDriver;
 using StretchOS.ServiceCenter.Domain;

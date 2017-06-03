@@ -1,4 +1,4 @@
-﻿using StretchOS.ServiceCenter.Domain;
+using StretchOS.ServiceCenter.Domain;
 using StretchOS.ServiceCenter.Validation;
 using StretchOS.ServiceCenter.WebProxy;
 using System;

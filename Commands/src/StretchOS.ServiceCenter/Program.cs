@@ -1,4 +1,4 @@
-﻿using StretchOS.Core.SystemIO;
+using StretchOS.Core.SystemIO;
 using StretchOS.Selenium.WebDriver;
 using StretchOS.ServiceCenter.Authentication;
 using StretchOS.ServiceCenter.Commands;

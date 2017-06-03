@@ -1,4 +1,4 @@
-﻿using StretchOS.ServiceCenter.Domain;
+using StretchOS.ServiceCenter.Domain;
 
 namespace StretchOS.ServiceCenter.WebProxy
 {
