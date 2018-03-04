@@ -10,3 +10,12 @@
 **/src/*/*.csproj.user
 **/src/.vscode
 **/src/*/debug.log
+/Automation/src/.net45/.vs
+/Automation/src/.net45/.vscode
+/Automation/src/.net45/packages
+/Automation/src/.net45/StretchOS.Console/bin/Debug
+/Automation/src/.net45/StretchOS.Console/obj/Debug
+/Automation/src/.net45/StretchOS.Proxy/bin/Debug
+/Automation/src/.net45/StretchOS.Proxy/obj/Debug
+/Automation/src/.net45/StretchOS.Proxy.UnitTests/bin/Debug
+/Automation/src/.net45/StretchOS.Proxy.UnitTests/obj/Debug
