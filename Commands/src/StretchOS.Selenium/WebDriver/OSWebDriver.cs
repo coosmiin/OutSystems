@@ -21,10 +21,10 @@ namespace StretchOS.Selenium.WebDriver
 			{
 				var options = new ChromeOptions();
 				options.AddUserProfilePreference("download.default_directory", AppContext.BaseDirectory);
+				options.AddArgument("--start-maximized");
 
 				_driver = new ChromeDriver(AppContext.BaseDirectory, options);
 			}
-			_driver.Manage().Window.Maximize();
 
 			_baseUri = new Uri(_settings.BaseUrl);
 		}
