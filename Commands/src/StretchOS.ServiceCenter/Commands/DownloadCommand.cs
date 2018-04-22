@@ -69,7 +69,7 @@ namespace StretchOS.ServiceCenter.Commands
 							Rule = ValidateDate,
 							ErrorMessageFormat = $"[{END_DATE_PARAM_NAME}] is invalid"
 						}
-					},
+					}
 				};
 		}
 

@@ -55,6 +55,11 @@ namespace StretchOS.Selenium.WebDriver
 			return this;
 		}
 
+		public IAlert SwitchToAlert()
+		{
+			return _driver.SwitchTo().Alert();
+		}
+
 		public bool ElementExists(By by, string value = null)
 		{
 			IEnumerable<IWebElement> elements = _driver.FindElements(by);

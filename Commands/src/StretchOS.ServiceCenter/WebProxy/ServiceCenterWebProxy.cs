@@ -6,6 +6,7 @@ using StretchOS.Core.Utils;
 using System;
 using System.IO;
 using System.Threading.Tasks;
+using System.Threading;
 
 namespace StretchOS.ServiceCenter.WebProxy
 {
@@ -57,6 +58,18 @@ namespace StretchOS.ServiceCenter.WebProxy
 			}
 
 			File.Move(filePath, newFilePath);
+		}
+
+		public void PublishSolution(int solutionId)
+		{
+			_webDriver
+				.GoTo($"Solution_Edit.aspx?SolutionId={solutionId}")
+				.Click(By.CssSelector(".NoWrap input[type=checkbox]"))
+				.Click(By.CssSelector("input[id^=wtListVersions][value=Publish]"));
+
+			_webDriver.SwitchToAlert().Accept();
+
+			Thread.Sleep(5000);
 		}
 
 		private void DowloadErrorLog(IOSWebDriver webDriver, string start, string end, string filePath)

@@ -2,7 +2,6 @@
 using StretchOS.ServiceCenter.Commands;
 using StretchOS.ServiceCenter.Domain;
 using StretchOS.ServiceCenter.WebProxy;
-using System.IO;
 using Xunit;
 
 namespace StretchOS.ServiceCenter.UnitTests.Commands
@@ -48,11 +47,12 @@ namespace StretchOS.ServiceCenter.UnitTests.Commands
 				Times.Once);
 		}
 
+		[Fact]
 		public void Execute_WithStartAndEndDate_InnerDownloadErrorLogMethodIsCalledWithNonEmptyParams()
 		{
 			var webProxyMock = new Mock<IServiceCenterWebProxy>();
 
-			var command = new DownloadCommand(webProxyMock.Object, "--error-log", "2017-12-01 00:00:00");
+			var command = new DownloadCommand(webProxyMock.Object, "--error-log", "2017-12-01 00:00:00", "2017-12-30 00:00:00");
 			command.Execute();
 
 			webProxyMock.Verify(
@@ -64,8 +64,6 @@ namespace StretchOS.ServiceCenter.UnitTests.Commands
 		[Fact]
 		public void Validate_KnownParam_IsValid()
 		{
-			var writer = new StringWriter();
-
 			var command = new DownloadCommand(Mock.Of<IServiceCenterWebProxy>(), "--error-log");
 			var result = command.Validate();
 
@@ -75,8 +73,6 @@ namespace StretchOS.ServiceCenter.UnitTests.Commands
 		[Fact]
 		public void Validate_MandatoryParamIsMissing_RequiredParamValidationError()
 		{
-			var writer = new StringWriter();
-
 			var command = new DownloadCommand(Mock.Of<IServiceCenterWebProxy>());
 			var result = command.Validate();
 
@@ -102,8 +98,6 @@ namespace StretchOS.ServiceCenter.UnitTests.Commands
 		[Fact]
 		public void Validate_InvalidStartDate_StartDateValidationError()
 		{
-			var writer = new StringWriter();
-
 			var command = new DownloadCommand(Mock.Of<IServiceCenterWebProxy>(), "--error-log", "2017-13-01 00:00:00");
 			var result = command.Validate();
 
@@ -114,8 +108,6 @@ namespace StretchOS.ServiceCenter.UnitTests.Commands
 		[Fact]
 		public void Validate_ValidStartDate_IsValid()
 		{
-			var writer = new StringWriter();
-
 			var command = new DownloadCommand(Mock.Of<IServiceCenterWebProxy>(), "--error-log", "2017-12-01 00:00:00");
 			var result = command.Validate();
 
@@ -126,8 +118,6 @@ namespace StretchOS.ServiceCenter.UnitTests.Commands
 		[Fact]
 		public void Validate_ValidStartDateIn24hFormat_IsValid()
 		{
-			var writer = new StringWriter();
-
 			var command = new DownloadCommand(Mock.Of<IServiceCenterWebProxy>(), "--error-log", "2017-05-01 23:59:59");
 			var result = command.Validate();
 
