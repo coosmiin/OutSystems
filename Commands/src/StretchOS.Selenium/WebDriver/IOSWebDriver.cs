@@ -8,6 +8,7 @@ namespace StretchOS.Selenium.WebDriver
 		IOSWebDriver Fill(By by, string text);
 		IOSWebDriver Click(By by);
 
+		IAlert SwitchToAlert();  
 		bool ElementExists(By by, string value = null);
 		string GetPageTitle();
 

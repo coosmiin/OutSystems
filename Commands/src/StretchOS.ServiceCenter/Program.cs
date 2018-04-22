@@ -18,7 +18,26 @@ namespace StretchOS.ServiceCenter
 
 			try
 			{
-				ICommand command = CreateCommand(args);
+				ICommandBuilder commandBuilder = new CommandBuilder();
+				ICommand command = null;
+
+				if (args[0] == DownloadCommand.COMMAND)
+				{
+					command =
+						commandBuilder.CreateDownloadCommand(args[4], args[5], args[6], args.Skip(1).ToArray());
+				}
+
+				if (args[0] == SolutionPublishCommand.COMMAND)
+				{
+					command =
+						commandBuilder.CreateSolutionPublishCommand(args[2], args[3], args[4], args.Skip(1).ToArray());
+				}
+
+				if (command == null)
+				{
+					Console.WriteLine("Unknown command: ", args[0]);
+					return;
+				}
 
 				ICommandRunner commandRunner = new CommandRunner(command, Console.Out); ;
 				commandRunner.Run();
@@ -29,7 +48,6 @@ namespace StretchOS.ServiceCenter
 			}
 		}
 
-		// TODO: extract command validation in a testable class
 		private static bool IsValid(string[] args)
 		{
 			if (args.Length == 0)
@@ -38,29 +56,7 @@ namespace StretchOS.ServiceCenter
 				return false;
 			}
 
-			if (args[0] != DownloadCommand.COMMAND)
-			{
-				Console.WriteLine("Unknown command: ", args[0]);
-				return false;
-			}
-
 			return true;
-		}
-
-		private static ICommand CreateCommand(string[] args)
-		{
-			// TODO: extract global parameters like host and credential
-			ICommand command =
-				new DownloadCommand(
-					new ServiceCenterWebProxy(
-						new OSWebDriver(
-							new OSWebDriverSettings(
-								args[4] + "/ServiceCenter/",
-								AuthActions.LoginAction(args[5], args[6]), AuthActions.LoginCheck)),
-						new SystemIOWrapper()),
-					args.Skip(1).ToArray());
-
-			return command;
 		}
 	}
 } 
