@@ -81,8 +81,6 @@ namespace StretchOS.ServiceCenter.WebProxy
 				.Click(By.CssSelector(".TableRecords_TopNavigation a"));
 
 			while (!_systemIOWrapper.FileExists(filePath)) ;
-
-			webDriver.Close();
 		}
 	}
 }
