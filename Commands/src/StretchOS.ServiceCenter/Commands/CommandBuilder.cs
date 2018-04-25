@@ -1,41 +1,37 @@
 ﻿using StretchOS.Core.SystemIO;
 using StretchOS.Selenium.WebDriver;
-using StretchOS.ServiceCenter.Authentication;
 using StretchOS.ServiceCenter.WebProxy;
 
 namespace StretchOS.ServiceCenter.Commands
 {
 	public class CommandBuilder : ICommandBuilder
 	{
-		public ICommand CreateDownloadCommand(
-			string baseUrl, string username, string password, string[] commandArguments)
+		private readonly IOSWebDriver _osWebDriver;
+
+		public CommandBuilder(IOSWebDriver osWebDriver)
+		{
+			_osWebDriver = osWebDriver;
+		}
+
+		public ICommand CreateDownloadCommand(string[] commandArguments)
 		{
 			ICommand command =
-				new DownloadCommand(
-					CreateServiceCenterWebProxy(baseUrl, username, password), commandArguments);
+				new DownloadCommand(CreateServiceCenterWebProxy(), commandArguments);
 
 			return command;
 		}
 
-		public ICommand CreateSolutionPublishCommand(
-			string baseUrl, string username, string password, string[] commandArguments)
+		public ICommand CreateSolutionPublishCommand(string[] commandArguments)
 		{
 			ICommand command =
-				new SolutionPublishCommand(
-					CreateServiceCenterWebProxy(baseUrl, username, password), commandArguments);
+				new SolutionPublishCommand(CreateServiceCenterWebProxy(), commandArguments);
 
 			return command;
 		}
 
-		private IServiceCenterWebProxy CreateServiceCenterWebProxy(string baseUrl, string username, string password)
+		private IServiceCenterWebProxy CreateServiceCenterWebProxy()
 		{
-			return
-				new ServiceCenterWebProxy(
-					new OSWebDriver(
-						new OSWebDriverSettings(
-							$"{baseUrl}/ServiceCenter/",
-							AuthActions.LoginAction(username, password), AuthActions.LoginCheck)),
-					new SystemIOWrapper());
+			return new ServiceCenterWebProxy(_osWebDriver, new SystemIOWrapper());
 		}
 	}
 }
